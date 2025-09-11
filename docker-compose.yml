@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    platform: linux/amd64 #M1~4以外の方はコメントアウト
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app_development
+    ports:
+      - '3399:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test:
+        ['CMD', 'mysqladmin', 'ping', '-h', 'localhost', '-uroot', '-ppassword']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -lc "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b 0.0.0.0"
+    volumes:
+      - .:/myapp
+      - bundle:/usr/local/bundle # ← ここを追加！
+    environment: # ← この2行も追加！
+      - RAILS_ENV=development # ← これが重要！
+      - BUNDLE_PATH=/usr/local/bundle
+    ports:
+      - '3107:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+    tty: true
+    stdin_open: true
+
+volumes:
+  mysql_data:
+  bundle: # ← ここも追加！
+
+networks:
+  task_network:
+    driver: bridge
