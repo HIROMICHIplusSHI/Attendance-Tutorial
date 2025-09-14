@@ -15,6 +15,7 @@ class UsersController < ApplicationController
     Rails.logger.debug "許可params: #{user_params.inspect}"
     if @user.save
       Rails.logger.info "✅ 登録成功: #{@user.id}"
+      log_in @user # 保存成功後、ログインします。
       flash[:success] = '新規作成に成功しました。'
       redirect_to @user  # 詳細画面へ遷移
     else

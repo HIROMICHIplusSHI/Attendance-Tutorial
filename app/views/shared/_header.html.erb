@@ -4,7 +4,27 @@
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <li><%= link_to "Top", root_path %></li>
-        <li><%= link_to "Log in", '#' %></li>
+        
+        <% if logged_in? %>
+          <!-- ログイン時：ドロップダウンメニューを表示 -->
+          <li class="dropdown" data-controller="dropdown">
+            <a href="#" class="dropdown-toggle" data-action="click->dropdown#toggle">
+              <%= current_user.name %> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu" data-dropdown-target="menu">
+              <li><%= link_to "Show", current_user %></li>
+              <li><%= link_to "Settings", '#' %></li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "Log out", logout_path, data: { turbo_method: :delete } %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <!-- 非ログイン時：Log inリンクを表示 -->
+          <li><%= link_to "Log in", login_path %></li>
+        <% end %>
+        
       </ul>
     </nav>
   </div>
