@@ -11,6 +11,8 @@ gem 'bootstrap-sass', '~> 3.4.1'
 
 gem 'kaminari'
 
+gem 'rails-i18n'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
