@@ -1,18 +1,17 @@
-# Sample users for development
-users = [
-  { name: "Taro Yamada", email: "taro@example.com", password: "password123" },
-  { name: "Hanako Sato", email: "hanako@example.com", password: "password123" },
-  { name: "Jiro Tanaka", email: "jiro@example.com", password: "password123" },
-  { name: "Sachiko Watanabe", email: "sachiko@example.com", password: "password123" },
-  { name: "Kenji Nakamura", email: "kenji@example.com", password: "password123" }
-]
-
-users.each do |user_data|
-  user = User.find_or_create_by!(email: user_data[:email]) do |u|
-    u.name = user_data[:name]
-    u.password = user_data[:password]
-  end
-  puts "✅ User: #{user.name} (#{user.email}) - ID: #{user.id}"
+# db/seeds.rb
+User.find_or_create_by!(email: "admin@example.com") do |user|
+  user.name = "管理者"
+  user.password = "password"
+  user.password_confirmation = "password"
+  user.admin = true  # ここがポイント！
 end
 
-puts "📊 Total users: #{User.count}"
+# 残りは一般ユーザー
+50.times do |n|
+  User.find_or_create_by!(email: "test#{n+1}@example.com") do |user|
+    user.name = "テストユーザー#{n+1}"
+    user.password = "password"
+    user.password_confirmation = "password"
+    # adminは指定しない = false
+  end
+end

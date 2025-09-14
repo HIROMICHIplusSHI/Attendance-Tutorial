@@ -1,0 +1,45 @@
+<!-- app/views/users/index.html.erb -->
+<% provide(:title, 'All Users') %>
+<h1>ユーザー一覧</h1>
+
+<div class="col-md-10 col-md-offset-1">
+  <!-- ページ情報 -->
+  <p>
+    全<%= @users.total_count %>件中
+    <%= @users.offset_value + 1 %>〜<%= @users.offset_value + @users.length %>件を表示
+  </p>
+  
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr>
+        <th>名前</th>
+        <th>メールアドレス</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.name, user %></td>
+          <td><%= user.email %></td>
+          <td>
+            <!-- 管理者で、かつ自分自身でない場合のみ表示 -->
+            <% if current_user.admin? && !current_user?(user) %>
+              <%= link_to "削除", user, 
+                  data: { 
+                    turbo_method: :delete,
+                    turbo_confirm: "本当に削除しますか？" 
+                  },
+                  class: "btn btn-danger btn-sm" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <!-- ページネーションリンク -->
+  <div class="text-center">
+    <%= paginate @users %>
+  </div>
+</div>

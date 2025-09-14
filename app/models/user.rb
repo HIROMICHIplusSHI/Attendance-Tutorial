@@ -5,9 +5,11 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
   # length: { maximum: 100 } → メールアドレスで100文字超えることある？不要
   # format: → 完璧な検証は不可能。最小限でOK
-  has_many :attendances
+  # has_many :attendances, dependent: :destroy
   has_secure_password
-  validates :password, presence: true, length: { minimum: 8 }
+  #新規作成時：passwordが空ならエラー
+  #更新時：passwordを入力しなければ（nil）、バリデーションエラーにならない
+  validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
 
   # ランダムなトークンを返す
   def self.new_token
@@ -35,5 +37,10 @@ class User < ApplicationRecord
   # ユーザーのログイン情報を破棄
   def forget
     update!(remember_digest: nil)
+  end
+
+  # 管理者かどうかを判定
+  def admin?
+    admin
   end
 end
