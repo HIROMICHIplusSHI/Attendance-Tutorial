@@ -1,4 +1,3 @@
-<!-- app/views/users/index.html.erb -->
 <% provide(:title, 'All Users') %>
 <h1>ユーザー一覧</h1>
 
@@ -9,31 +8,23 @@
     <%= @users.offset_value + 1 %>〜<%= @users.offset_value + @users.length %>件を表示
   </p>
   
-  <table class="table table-condensed table-hover">
+  <table class="table table-condensed table-hover" id="table-users">
     <thead>
       <tr>
-        <th>名前</th>
-        <th>メールアドレス</th>
+        <th><%= User.human_attribute_name :name %></th>
+        <th class="center"><%= User.human_attribute_name :department %></th>
+        <% if current_user.admin? %>
+        <!-- 管理者だけに基本時間と勤務時間の列を表示 -->
+          <th class="center"><%= User.human_attribute_name :basic_time %></th>
+          <th class="center"><%= User.human_attribute_name :work_time %></th>
+        <% end %>
         <th></th>
       </tr>
     </thead>
+    
     <tbody>
       <% @users.each do |user| %>
-        <tr>
-          <td><%= link_to user.name, user %></td>
-          <td><%= user.email %></td>
-          <td>
-            <!-- 管理者で、かつ自分自身でない場合のみ表示 -->
-            <% if current_user.admin? && !current_user?(user) %>
-              <%= link_to "削除", user, 
-                  data: { 
-                    turbo_method: :delete,
-                    turbo_confirm: "本当に削除しますか？" 
-                  },
-                  class: "btn btn-danger btn-sm" %>
-            <% end %>
-          </td>
-        </tr>
+        <%= render 'user_row', user: user %>
       <% end %>
     </tbody>
   </table>

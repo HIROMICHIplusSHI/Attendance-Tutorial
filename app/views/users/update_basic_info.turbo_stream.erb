@@ -1,0 +1,23 @@
+<%= turbo_stream.update 'flash' do %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+<%= turbo_stream.replace "user_#{@user.id}", partial: 'users/user_row', locals: { user: @user } %>
+<%= turbo_stream.update 'modal', '' %>
+<%= turbo_stream.append 'flash' do %>
+  <script>
+    // 3秒後にフラッシュメッセージを自動で消去
+    setTimeout(function() {
+      const flashContainer = document.getElementById('flash');
+      if (flashContainer) {
+        flashContainer.style.transition = 'opacity 0.5s ease-out';
+        flashContainer.style.opacity = '0';
+        setTimeout(function() {
+          flashContainer.innerHTML = '';
+          flashContainer.style.opacity = '1';
+        }, 500);
+      }
+    }, 3000);
+  </script>
+<% end %>

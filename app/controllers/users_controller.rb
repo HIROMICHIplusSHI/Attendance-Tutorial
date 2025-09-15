@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
+  before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
-
+  before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
+  
   def index
     @users = User.page(params[:page]).per(30)  # ページネーション：1ページ30件
   end
@@ -59,10 +59,48 @@ class UsersController < ApplicationController
     end
   end
 
+  def edit_basic_info
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      format.html { render partial: 'users/edit_basic_info', locals: { user: @user } }
+      format.turbo_stream
+    end
+  end
+
+  def update_basic_info
+    @user = User.find(params[:id])
+
+    Rails.logger.debug "🔧 Basic info params: #{basic_info_params.inspect}"
+    Rails.logger.debug "🔧 Before update - Department: #{@user.department}, Basic: #{@user.basic_time}, Work: #{@user.work_time}"
+
+    if @user.update(basic_info_params)
+      Rails.logger.info "✅ 基本情報更新成功: #{@user.name}"
+      Rails.logger.debug "🔧 After update - Department: #{@user.department}, Basic: #{@user.basic_time}, Work: #{@user.work_time}"
+      flash[:success] = "#{@user.name}の基本情報を更新しました。"
+    else
+      Rails.logger.warn "❌ 基本情報更新失敗: #{@user.name}"
+      Rails.logger.debug "🔧 Errors: #{@user.errors.full_messages}"
+      flash[:danger] = "#{@user.name}の更新は失敗しました。<br>" +
+                       @user.errors.full_messages.join("<br>")
+    end
+
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.turbo_stream
+    end
+  end
+
   private
 
+  # 通常のユーザー編集用（本人が編集可能）
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
+  end
+
+  # 基本情報編集用（管理者のみ編集可能）
+  def basic_info_params
+    params.require(:user).permit(:department, :basic_time, :work_time)
   end
 
   def set_user

@@ -89,18 +89,22 @@ p {
 
 #error_explanation {
   color: red;
-  ul {
-    color: red;
-    margin: 0 0 30px 0;
-  }
+}
+
+#error_explanation ul {
+  color: red;
+  margin: 0 0 30px 0;
 }
 
 .field_with_errors {
   @extend .has-error;
-  .form-control {
-    color: $state-danger-text;
-  }
 }
+
+.field_with_errors .form-control {
+  color: #a94442;
+}
+
+/* dropdown */
 
 .dropdown {
   position: relative;
@@ -114,8 +118,8 @@ p {
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  right: 0; /* 右寄せ */
-  top: 100%; /* ドロップダウントグルの真下に配置 */
+  right: 0;
+  top: 100%;
 }
 
 .dropdown-menu.show {
@@ -135,4 +139,26 @@ p {
 
 .dropdown-menu a:hover {
   background-color: #f1f1f1;
+}
+
+/* モーダルウインドウの位置調整 */
+.modal-dialog-center {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 1050 !important;
+  width: 600px;
+  max-width: 90%;
+}
+
+/* モーダルの背景 */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
 }

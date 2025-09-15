@@ -13,10 +13,11 @@
 
   <body>
     <%= render 'shared/header' %>
+    <%= turbo_frame_tag 'modal' %>
     <div class="container">
-      <% flash.each do |message_type, msg| %>
-        <div class="alert alert-<%= message_type %>"><%= msg %></div>
-      <% end %>
+      <div id="flash">
+        <%= render "shared/flash_messages" %>
+      </div>
       <%= yield %>
     </div>
   </body>

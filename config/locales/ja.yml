@@ -72,61 +72,61 @@ ja:
     page: 'ページ'
     of: '/'
 
-    # 日付関連の翻訳
-    date:
-      abbr_day_names:
-        - 日
-        - 月
-        - 火
-        - 水
-        - 木
-        - 金
-        - 土
-      abbr_month_names:
-        -
-        - 1月
-        - 2月
-        - 3月
-        - 4月
-        - 5月
-        - 6月
-        - 7月
-        - 8月
-        - 9月
-        - 10月
-        - 11月
-        - 12月
-      day_names:
-        - 日曜日
-        - 月曜日
-        - 火曜日
-        - 水曜日
-        - 木曜日
-        - 金曜日
-        - 土曜日
-      formats:
-        default: '%Y/%m/%d'
-        long: '%Y年%m月%d日(%a)'
-        middle: '%Y年%m月'
-        short: '%-m/%-d'
-      month_names:
-        -
-        - 1月
-        - 2月
-        - 3月
-        - 4月
-        - 5月
-        - 6月
-        - 7月
-        - 8月
-        - 9月
-        - 10月
-        - 11月
-        - 12月
-      order:
-        - :year
-        - :month
-        - :day
+  # 日付関連の翻訳
+  date:
+    abbr_day_names:
+      - 日
+      - 月
+      - 火
+      - 水
+      - 木
+      - 金
+      - 土
+    abbr_month_names:
+      -
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
+    day_names:
+      - 日曜日
+      - 月曜日
+      - 火曜日
+      - 水曜日
+      - 木曜日
+      - 金曜日
+      - 土曜日
+    formats:
+      default: '%Y/%m/%d'
+      long: '%Y年%m月%d日(%a)'
+      middle: '%Y年%m月'
+      short: '%-m/%-d'
+    month_names:
+      -
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
+    order:
+      - :year
+      - :month
+      - :day
 
   # 日時関連の翻訳
   datetime:
@@ -289,11 +289,11 @@ ja:
   # Kaminari ページネーション関連の翻訳
   views:
     pagination:
-      first: "&laquo; 最初"
-      last: "最後 &raquo;"
-      previous: "&lsaquo; 前へ"
-      next: "次へ &rsaquo;"
-      truncate: "&hellip;"
+      first: '&laquo; 最初'
+      last: '最後 &raquo;'
+      previous: '&lsaquo; 前へ'
+      next: '次へ &rsaquo;'
+      truncate: '&hellip;'
 
   # Active Record モデル関連の翻訳
   activerecord:
@@ -306,5 +306,8 @@ ja:
         password: パスワード
         password_confirmation: パスワード（確認）
         admin: 管理者権限
+        department: 所属          
+        basic_time: 基本時間        
+        work_time: 勤務時間        
         created_at: 作成日時
         updated_at: 更新日時

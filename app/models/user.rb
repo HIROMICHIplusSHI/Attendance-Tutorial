@@ -11,6 +11,11 @@ class User < ApplicationRecord
   #更新時：passwordを入力しなければ（nil）、バリデーションエラーにならない
   validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
 
+  validates :department, length: { in: 2..30 }, allow_blank: true
+  # departmentは空でもOK、空でなければ2〜30文字
+  validates :basic_time, presence: true
+  validates :work_time, presence: true
+
   # ランダムなトークンを返す
   def self.new_token
     SecureRandom.urlsafe_base64

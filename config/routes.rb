@@ -8,9 +8,14 @@ Rails.application.routes.draw do
   
   # ユーザー関連
   get '/signup', to: 'users#new'
-  resources :users, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :users do  
+    member do
+      get 'edit_basic_info'
+      patch 'update_basic_info'
+    end
+  end
   
-   # ログイン機能
+  # ログイン機能
   get    '/login', to: 'sessions#new'
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'

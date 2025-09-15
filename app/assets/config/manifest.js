@@ -4,3 +4,4 @@
 //= link controllers/application.js
 //= link controllers/index.js
 //= link controllers/dropdown_controller.js
+//= link controllers/edit_basic_info_controller.js

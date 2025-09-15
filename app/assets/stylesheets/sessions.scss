@@ -15,3 +15,25 @@
     font-weight: normal;
   }
 }
+
+/* モーダルウインドウの位置調整 */
+.modal-dialog-center {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  z-index: 1050 !important;
+  width: 600px; /* 幅も指定 */
+  max-width: 90%; /* 画面幅が狭い時の対応 */
+}
+
+/* モーダルの背景（オーバーレイ） */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
