@@ -70,7 +70,16 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem 'capybara', '>= 3.26'
+  gem 'selenium-webdriver'
+  gem 'webdrivers'
+  gem 'rails-flog', require: 'flog'
+  gem 'rspec-rails', '~> 6.1'  # バージョン指定を追加
+  gem "factory_bot_rails"
+  gem 'faker'
+  gem 'database_cleaner-active_record'  # 現代版に変更
+  gem 'rails-controller-testing'
+  
+  # 現代的な追加Gem（オプション）
+  gem 'shoulda-matchers', '~> 6.0'  # 後で使います！
 end
