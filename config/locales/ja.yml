@@ -306,8 +306,15 @@ ja:
         password: パスワード
         password_confirmation: パスワード（確認）
         admin: 管理者権限
-        department: 所属          
-        basic_time: 基本時間        
-        work_time: 勤務時間        
+        department: 所属
+        basic_time: 基本時間
+        work_time: 勤務時間
         created_at: 作成日時
-        updated_at: 更新日時
+        # 追加の時刻フォーマット
+        time:
+          formats:
+            default: '%Y/%m/%d %H:%M:%S'
+            short: '%m/%d'
+            middle: '%Y年%m月' # 追加
+            long: '%Y年%m月%d日(%a) %H時%M分%S秒 %z'
+            time: '%H:%M'

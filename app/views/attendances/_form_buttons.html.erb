@@ -1,0 +1,13 @@
+<%# app/views/attendances/_form_buttons.html.erb %>
+<div class="center">
+  <%= submit_tag "まとめて更新", 
+                 class: "btn btn-lg btn-primary",
+                 data: { 
+                   confirm: "勤怠情報を更新します。よろしいですか？",
+                   disable_with: "更新中..." 
+                 } %>
+  
+  <%= link_to "キャンセル", 
+              user_path(user, date: first_day), 
+              class: "btn btn-lg btn-default" %>
+</div>

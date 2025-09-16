@@ -1,0 +1,54 @@
+<%# app/views/attendances/_attendance_form_row.html.erb %>
+<%= form.fields_for "attendances[]", day do |attendance| %>
+  <tr>
+    <%# 日付 %>
+    <td><%= l(day.worked_on, format: :short) %></td>
+    
+    <%# 曜日（土日に色をつける） %>
+    <td class="<%= day.worked_on.sunday? ? 'text-danger' : '' %>
+               <%= day.worked_on.saturday? ? 'text-primary' : '' %>">
+      <%= $days_of_the_week[day.worked_on.wday] %>
+    </td>
+    
+    <%# 出勤時間・退勤時間（権限による制御） %>
+    <% if !current_user.admin? && (Date.current < day.worked_on) %>
+      <%# 一般ユーザーかつ未来の日付は編集不可 %>
+      <td>
+        <%= attendance.time_field :started_at, 
+                                  readonly: true, 
+                                  class: "form-control bg-light" %>
+      </td>
+      <td>
+        <%= attendance.time_field :finished_at, 
+                                  readonly: true, 
+                                  class: "form-control bg-light" %>
+      </td>
+    <% else %>
+      <%# 管理者または過去・当日は編集可能 %>
+      <td>
+        <%= attendance.time_field :started_at, 
+                                  class: "form-control",
+                                  step: 900 %>  <%# 15分刻み %>
+      </td>
+      <td>
+        <%= attendance.time_field :finished_at, 
+                                  class: "form-control",
+                                  step: 900 %>  <%# 15分刻み %>
+      </td>
+    <% end %>
+    
+    <%# 在社時間（自動計算） %>
+    <td>
+      <% if day.started_at.present? && day.finished_at.present? %>
+        <%= working_times(day.started_at, day.finished_at) %>
+      <% end %>
+    </td>
+    
+    <%# 備考 %>
+    <td>
+      <%= attendance.text_field :note, 
+                                class: "form-control",
+                                placeholder: "備考" %>
+    </td>
+  </tr>
+<% end %>

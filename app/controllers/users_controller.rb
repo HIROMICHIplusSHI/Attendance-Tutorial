@@ -103,26 +103,4 @@ class UsersController < ApplicationController
     params.require(:user).permit(:department, :basic_time, :work_time)
   end
 
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  # ログイン済みか確認
-  def logged_in_user
-    unless logged_in?
-      flash[:danger] = "ログインしてください。"
-      redirect_to login_url
-    end
-  end
-
-  # 正しいユーザーかどうかチェック
-  def correct_user
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless current_user?(@user)
-  end
-
-  # 管理者かどうか確認
-  def admin_user
-    redirect_to(root_url) unless current_user.admin?
-  end
 end

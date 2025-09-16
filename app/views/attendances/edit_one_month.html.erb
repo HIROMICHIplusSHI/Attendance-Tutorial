@@ -1,0 +1,58 @@
+<%# app/views/attendances/edit_one_month.html.erb %>
+<% provide(:title, @user.name) %>
+
+<%= form_with(model: @user, 
+        url: update_one_month_user_attendances_path(@user, date: @first_day), 
+        method: :patch) do |f| %>
+  <div>
+    <h1>勤怠編集画面</h1>
+  </div>
+
+  <div>
+    <table class="table table-bordered table-condensed table-hover" id="table-attendances">
+      <thead>
+        <tr>
+          <th class="text-center">日付</th>
+          <th class="text-center">曜日</th>
+          <th class="text-center">出勤時間</th>
+          <th class="text-center">退勤時間</th>
+          <th class="text-center">在社時間</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @attendances.each do |day| %>
+        <tr>
+          <td class="text-center"><%= l(day.worked_on, format: :short) %></td>
+          <td class="text-center"><%= $days_of_the_week[day.worked_on.wday] %></td>
+          <td class="text-center">
+            <%= text_field_tag "user[attendances][#{day.id}][started_at]", 
+                  day.started_at&.strftime("%H:%M"),
+                  type: "time",
+                  class: "form-control text-center" %>
+          </td>
+          <td class="text-center">
+            <%= text_field_tag "user[attendances][#{day.id}][finished_at]", 
+                  day.finished_at&.strftime("%H:%M"),
+                  type: "time", 
+                  class: "form-control text-center" %>
+          </td>
+          <td class="text-center">
+            <% if day.started_at.present? && day.finished_at.present? %>
+              <%= working_times(day.started_at, day.finished_at) %>
+            <% end %>
+          </td>
+          <td>
+            <%= text_field_tag "user[attendances][#{day.id}][note]", 
+                  day.note, 
+                  class: "form-control" %>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%# ボタン部分もパーシャル化 %>
+  <%= render 'form_buttons', user: @user, first_day: @first_day %>
+<% end %>

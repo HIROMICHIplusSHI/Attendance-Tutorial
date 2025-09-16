@@ -1,25 +1,27 @@
+# config/routes.rb
 Rails.application.routes.draw do
-
-  # ルートページ
-  root "static_pages#top"
+  root 'static_pages#top'
   
-  # 静的ページ
-  get "static_pages/top"
-  
-  # ユーザー関連
+  # 認証関連（後でDeviseに置き換え可能）
   get '/signup', to: 'users#new'
-  resources :users do  
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
+  resources :users do
     member do
       get 'edit_basic_info'
       patch 'update_basic_info'
     end
-    resources :attendances, only: :update
+    
+    # 勤怠関連
+    resources :attendances, only: [:update] do
+      collection do
+        get 'edit_one_month'
+        patch 'update_one_month'
+      end
+    end
   end
-  
-  # ログイン機能
-  get    '/login', to: 'sessions#new'
-  post   '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
 
   # システム関連
   # ヘルスチェック用エンドポイント（本番環境・監視システム用）
