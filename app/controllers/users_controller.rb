@@ -6,7 +6,12 @@ class UsersController < ApplicationController
   before_action :set_one_month, only: :show
   
   def index
-    @users = User.page(params[:page]).per(30)  # ページネーション：1ページ30件
+    @users = User.paginate(page: params[:page])
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
   end
   
   def show
