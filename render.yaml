@@ -1,0 +1,32 @@
+services:
+  - type: web
+    runtime: docker
+    name: attendance-tutorial
+    repo: https://github.com/HIROMICHIplusSHI/Attendance-Tutorial.git  # あなたのリポジトリ
+    branch: main
+    dockerfilePath: ./Dockerfile.production  # 本番用を指定
+    plan: free
+    region: singapore  # 日本から近い
+    healthCheckPath: /
+    
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      
+      - key: RAILS_MASTER_KEY
+        generateValue: true
+      
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      
+      - key: DATABASE_URL
+        sync: false  # Neonから手動設定
+      
+      - key: RAILS_MAX_THREADS
+        value: "5"
+      
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
