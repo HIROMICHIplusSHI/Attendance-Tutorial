@@ -43,12 +43,14 @@ RUN useradd rails --create-home --shell /bin/bash && \
     chown -R rails:rails db log storage tmp
 USER rails:rails
 
-# 本番環境変数を確実に設定
-ENV RAILS_ENV=production \
-    PORT=3000
-
 # 既存のentrypoint.shを使用
 ENTRYPOINT ["/rails/entrypoint.sh"]
 
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+
+# 環境変数を明示的に設定（第一の保険）
+ENV RAILS_ENV=production
+ENV PORT=3000
+
+# フラグで強制的に指定（第二・第三の保険）
+CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0", "-p", "3000"]
