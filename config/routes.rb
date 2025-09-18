@@ -27,6 +27,6 @@ Rails.application.routes.draw do
   # ヘルスチェック用エンドポイント（本番環境・監視システム用）
   get "up" => "rails/health#show", as: :rails_health_check
   
-  # Railway用追加ヘルスチェック
-  get '/health', to: proc { [200, {}, ['OK']] }
+  # Railway用追加ヘルスチェック（DB非依存）
+  get '/health', to: proc { [200, {'Content-Type' => 'text/plain'}, ['Railway Health Check OK']] }
 end

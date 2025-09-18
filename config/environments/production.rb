@@ -20,10 +20,12 @@ Rails.application.configure do
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
-  # Railway allowed hosts
-  config.hosts << ".up.railway.app"
+  # Railway allowed hosts（包括的設定）
+  config.hosts << ".railway.app"  # すべてのRailwayサブドメイン
   config.hosts << "healthcheck.railway.app"  # ヘルスチェック用
   config.hosts << "localhost"
+  config.hosts.clear if Rails.env.production?  # 本番環境では全許可（一時的）
+  config.force_ssl = false  # HTTPS強制を無効化
 
   # Enable static file serving from the `/public` folder (turn off if using NGINX/Apache for it).
   config.public_file_server.enabled = true
