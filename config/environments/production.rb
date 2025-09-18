@@ -20,6 +20,10 @@ Rails.application.configure do
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
   # config.require_master_key = true
 
+  # Railway allowed hosts
+  config.hosts << ".up.railway.app"
+  config.hosts << "localhost"
+
   # Enable static file serving from the `/public` folder (turn off if using NGINX/Apache for it).
   config.public_file_server.enabled = true
 
