@@ -22,6 +22,7 @@ Rails.application.configure do
 
   # Railway allowed hosts
   config.hosts << ".up.railway.app"
+  config.hosts << "healthcheck.railway.app"  # ヘルスチェック用
   config.hosts << "localhost"
 
   # Enable static file serving from the `/public` folder (turn off if using NGINX/Apache for it).
