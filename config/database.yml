@@ -15,12 +15,12 @@ test:
   database: app_test
 
 production:
-  adapter: postgresql
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   <% if ENV['DATABASE_URL'].present? %>
   url: <%= ENV['DATABASE_URL'] %>
   <% else %>
+  adapter: postgresql
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   database: app_production
   username: app
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
