@@ -57,16 +57,16 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mswin mswin64 mingw x64_mingw ]
 end
 
+# 開発環境用
 group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "mysql2", "~> 0.5"
   gem "web-console"
+  gem "listen", "~> 3.3"
+end
 
-  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
-  # gem "rack-mini-profiler"
-
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-
+# 本番環境用
+group :production do
+  gem "pg", "~> 1.1"
 end
 
 group :test do

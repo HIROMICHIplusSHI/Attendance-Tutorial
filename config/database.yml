@@ -15,7 +15,14 @@ test:
   database: app_test
 
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <% if ENV['DATABASE_URL'].present? %>
+  url: <%= ENV['DATABASE_URL'] %>
+  <% else %>
   database: app_production
-  username: root
+  username: app
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+  host: <%= ENV["DATABASE_HOST"] %>
+  <% end %>

@@ -1,0 +1,50 @@
+# Dockerfile.production
+# syntax = docker/dockerfile:1
+
+ARG RUBY_VERSION=3.0.6
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
+
+WORKDIR /rails
+
+# 本番環境設定
+ENV RAILS_ENV="production" \
+    BUNDLE_WITHOUT="development:test" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    SECRET_KEY_BASE_DUMMY="1"
+
+FROM base as build
+
+# PostgreSQL用のライブラリを追加
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    build-essential git libpq-dev pkg-config curl
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache
+
+COPY . .
+
+RUN bundle exec bootsnap precompile app/ lib/
+RUN ./bin/rails assets:precompile
+
+FROM base
+
+# PostgreSQLクライアントをインストール
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y \
+    libpq-dev postgresql-client curl && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
+
+RUN useradd rails --create-home --shell /bin/bash && \
+    chown -R rails:rails db log storage tmp
+USER rails:rails
+
+# 既存のentrypoint.shを使用
+ENTRYPOINT ["/rails/entrypoint.sh"]
+
+EXPOSE 3000
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]
