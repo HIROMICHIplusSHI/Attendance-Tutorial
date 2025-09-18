@@ -52,5 +52,5 @@ EXPOSE 3000
 ENV RAILS_ENV=production
 ENV PORT=3000
 
-# フラグで強制的に指定（第二・第三の保険）
-CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0", "-p", "3000"]
+# Railway対応: 動的ポート割り当てに対応
+CMD ["./bin/rails", "server", "-e", "production", "-b", "0.0.0.0"]
