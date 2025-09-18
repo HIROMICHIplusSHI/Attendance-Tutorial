@@ -4,7 +4,7 @@
 
 ## 開発環境
 
-- AWS Cloud9
+- Docker
 - Ruby
 - Rails
 - Git
@@ -17,3 +17,7 @@
 $ docker-compose up -d
 $ docker attach attendance_app-web-1
 ```
+
+## SSH 接続の設定完了
+
+- $(date '+%Y 年%m 月%d 日') SSH 設定を完了しました
