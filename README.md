@@ -7,7 +7,7 @@
 - Docker
 - Ruby
 - Rails
-- Git
+- Git（HTTPS から SSH 通信へ変更）
 
 # サンプルアプリケーション（Docker 版手順）
 
@@ -17,7 +17,3 @@
 $ docker-compose up -d
 $ docker attach attendance_app-web-1
 ```
-
-## SSH 接続の設定完了
-
-- $(date '+%Y 年%m 月%d 日') SSH 設定を完了しました
